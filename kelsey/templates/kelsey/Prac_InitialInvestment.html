@@ -3,14 +3,15 @@
 
 {% block title %}
 {% if player.treatment == 'T2' %}
-  Practice: Investment
+  Practice: Round 1 of 2: Investment
 {% else %}
-  Practice: Initial Investment
+  Practice: Round 1 of 2: Initial Investment
 {% endif %}
 {% endblock %}
 
 {% block inner_content %}
-{% include 'kelsey/Prac_InfoBlock.html' with  high_payoff=player.prac_high_payoff low_payoff=player.prac_low_payoff %}
+
+{% include 'kelsey/Prac_InfoBlock.html' with  high_payoff=Constants.prac_high_payoff low_payoff=Constants.prac_low_payoff %}
 
 {% formfield player.prac_first_decision with label=first_decision_label %}
 {% include 'kelsey/slider_wrapper.html' %}

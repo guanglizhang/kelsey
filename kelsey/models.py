@@ -23,8 +23,8 @@ class Constants(BaseConstants):
     num_rounds = 18
     # till what round we play T0 and then change to whatever treatment
     # we have?::
-    first_half = 9
-    second_half = first_half + 1
+    first_half = 9 #treatment1
+    second_half = first_half + 1 #treatment2
     assert first_half <= num_rounds, "SOMETHING WRONG WITH NUMBER OF ROUNDS!"
     p = 0.5  # probability of low payoff
     initial_cost = c(25)
@@ -44,10 +44,24 @@ class Constants(BaseConstants):
     take this contract?""".format(c(initial_cost)),
         'T2': """Do you want to pay an investment cost of {} to release the randomly determined payoff?""".format(c(tot_cost)),
 }
+    prac_first_decision_labels = {
+        'T0': """Do you want to pay an initial investment cost of {}  with the final
+        investment cost determined based on what value payoff
+        is drawn?""".format(c(initial_cost)),
+        'T1': """Do you want to pay an initial investment cost of {} to
+        take this contract?""".format(c(initial_cost)),
+        'T2': """Do you want to pay an investment cost of {} to release the randomly determined payoff?""".format(
+            c(tot_cost)),
+    }
     wallet = c(1000)  # initial wallet
     low_payoff_set = [0, 18, 36]
     high_payoff_set = [90, 108, 126]
+    prac_low_payoff = 8
+    prac_high_payoff = 110
+    prac_low_payoff2 = 26
+    prac_high_payoff2 = 100
     payoffs_sets = list(product(low_payoff_set, high_payoff_set))
+
     # values for control questions:
     q_parameters = {'initial_cost': initial_cost,
                     'final_cost': final_cost,
@@ -67,6 +81,7 @@ class Constants(BaseConstants):
             final=q_parameters['final_cost'],
             hpayoff=q_parameters['high_payoff'],
             lpayoff=q_parameters['low_payoff'],
+            total=q_parameters['tot_cost'],
         )
         # a = dict(questions)
         # questions = OrderedDict(sorted(questions.items(), key=lambda item: item['number']))
@@ -94,6 +109,17 @@ class Subsession(BaseSubsession):
                 p.vars.setdefault('first_treatment', treatments[0])
                 p.vars.setdefault('second_treatment', treatments[1])
 
+            # practice -start
+            for p in self.get_players():
+                p.prac_low_payoff = 8
+                p.prac_high_payoff = 110
+                p.prac_low_payoff2 = 26
+                p.prac_high_payoff2 = 100
+                p.prac_investment_payoff = weighted_choice(p.prac_low_payoff, p.prac_high_payoff)
+                p.prac_investment_payoff2 = weighted_choice(p.prac_low_payoff2, p.prac_high_payoff2)
+
+            # practice -end
+
         for p in self.get_players():
             curpayoffset = (Constants.payoffs_sets.copy())
             random.shuffle(curpayoffset)
@@ -102,12 +128,6 @@ class Subsession(BaseSubsession):
             p.low_payoff = p.participant.vars['payoffsets'][i][0]
             p.high_payoff = p.participant.vars['payoffsets'][i][1]
             p.investment_payoff = weighted_choice(p.low_payoff, p.high_payoff)
-
-            # practice -start
-            p.prac_low_payoff = 15
-            p.prac_high_payoff = 100
-            p.prac_investment_payoff = weighted_choice(p.prac_low_payoff, p.prac_high_payoff)
-            # practice -end
 
             if p.round_number <= Constants.first_half:
                 p.treatment = p.participant.vars['first_treatment']
@@ -129,7 +149,7 @@ CONFIDENT_CHOICES = ['Very Confident',
 
 class Player(BasePlayer):
     game_payoff = models.CurrencyField(doc='for ingame payoffs only')
-    practice_payoff = models.CurrencyField(doc='for prac payoffs only')
+    practice_payoff = models.TextField(doc='for prac payoffs only')
     vars_dump = models.TextField(doc='to store participant vars')
     consent = models.BooleanField(widget=djforms.CheckboxInput,
                                   initial=False
@@ -148,17 +168,29 @@ class Player(BasePlayer):
     prac_investment_payoff = models.IntegerField()
     prac_low_payoff = models.IntegerField()
     prac_high_payoff = models.IntegerField()
+    prac_investment_payoff2 = models.IntegerField()
+    prac_low_payoff2 = models.IntegerField()
+    prac_high_payoff2 = models.IntegerField()
     prac_first_decision = models.BooleanField()
     prac_second_decision = models.BooleanField(
         verbose_name="""Do you want to pay the final
         investment cost of {} to
          release this payoff?""".format(c(Constants.final_cost))
     )
+    prac_first_decision2 = models.BooleanField()
+    prac_second_decision2 = models.BooleanField(
+        verbose_name="""Do you want to pay the final
+        investment cost of {} to
+         release this payoff?""".format(c(Constants.final_cost))
+    )
+
     #practice -end
+
     round_to_pay_part1 = models.IntegerField(min=1, max=Constants.first_half,
                                              doc='Random number defining payoff for the first part of the game')
     round_to_pay_part2 = models.IntegerField(min=Constants.second_half, max=Constants.num_rounds,
                                              doc='Random number defining payoff for the second part of the game')
+
     # set of control questions for each treatment
 
     for i in Constants.questions:
@@ -174,37 +206,76 @@ class Player(BasePlayer):
     def prac_set_payoffs(self):
         if self.treatment == 'T0':
             self.prac_payoff = self.prac_first_decision * (-Constants.initial_cost +
-                                                 max(self.prac_investment_payoff - Constants.final_cost, 0))
+                                                           max(self.prac_investment_payoff - Constants.final_cost,
+                                                               0))
         if self.treatment == 'T1':
             sec_dec = self.prac_second_decision if self.prac_second_decision is not None else 0
-            self.prac_payoff = self.prac_first_decision * (-Constants.initial_cost +
-                                                 (self.prac_investment_payoff - Constants.final_cost) * sec_dec
-                                                 )
+            fst_dec = self.prac_first_decision if self.prac_first_decision is not None else 1
+            ivs = self.prac_investment_payoff if self.prac_investment_payoff is not None else Constants.prac_high_payoff
+            self.prac_payoff = fst_dec * (-Constants.initial_cost +
+                             (ivs - Constants.final_cost) * sec_dec)
+
+            #self.prac_payoff = self.prac_first_decision * (-Constants.initial_cost +
+            #                                    (self.prac_investment_payoff - Constants.final_cost) * sec_dec
+            #                                     )
+
         if self.treatment == 'T2':
-            self.prac_payoff = self.prac_first_decision * (
-                - Constants.initial_cost + self.prac_investment_payoff - Constants.final_cost)
+            fst = self.prac_first_decision if self.prac_first_decision is not None else 0
+            ivs = self.prac_investment_payoff if self.prac_investment_payoff is not None else Constants.prac_high_payoff
+            self.prac_payoff = fst * (
+                - Constants.initial_cost + ivs - Constants.final_cost)
+            #self.prac_payoff = self.prac_first_decision * (- Constants.initial_cost + self.prac_investment_payoff - Constants.final_cost)
+
         # to store the practice_payoffs only
         self.practice_payoff = self.prac_payoff
 
+    def prac_set_payoffs2(self):
+        if self.treatment == 'T0':
+            self.prac_payoff = self.prac_first_decision2 * (-Constants.initial_cost +
+                                                           max(self.prac_investment_payoff2 - Constants.final_cost,
+                                                               0))
+        if self.treatment == 'T1':
+            sec_dec = self.prac_second_decision2 if self.prac_second_decision2 is not None else 0
+            fst_dec = self.prac_first_decision2 if self.prac_first_decision2 is not None else 1
+            ivs = self.prac_investment_payoff2 if self.prac_investment_payoff2 is not None else Constants.prac_high_payoff
+            self.prac_payoff = fst_dec * (-Constants.initial_cost +
+                             (ivs - Constants.final_cost) * sec_dec)
+
+            #self.prac_payoff = self.prac_first_decision * (-Constants.initial_cost +
+            #                                    (self.prac_investment_payoff - Constants.final_cost) * sec_dec
+            #                                     )
+
+        if self.treatment == 'T2':
+            fst = self.prac_first_decision2 if self.prac_first_decision2 is not None else 0
+            ivs = self.prac_investment_payoff2 if self.prac_investment_payoff2 is not None else Constants.prac_high_payoff
+            self.prac_payoff = fst * (
+                - Constants.initial_cost + ivs - Constants.final_cost)
+            #self.prac_payoff = self.prac_first_decision * (- Constants.initial_cost + self.prac_investment_payoff - Constants.final_cost)
+
+        # to store the practice_payoffs only
+        self.practice_payoff = self.prac_payoff
     #practice -end
 
     def set_payoffs(self):
         if self.treatment == 'T0':
-            self.payoff = self.first_decision * (-Constants.initial_cost +
+                self.payoff = self.first_decision * (-Constants.initial_cost +
                                                  max(self.investment_payoff - Constants.final_cost, 0))
+
         if self.treatment == 'T1':
-            sec_dec = self.second_decision if self.second_decision is not None else 0
-            self.payoff = self.first_decision * (-Constants.initial_cost +
+                sec_dec = self.second_decision if self.second_decision is not None else 0
+                self.payoff = self.first_decision * (-Constants.initial_cost +
                                                  (self.investment_payoff - Constants.final_cost) * sec_dec
                                                  )
         if self.treatment == 'T2':
-            self.payoff = self.first_decision * (
-                - Constants.initial_cost + self.investment_payoff - Constants.final_cost)
+            #fst = self.first_decision if self.first_decision is not None else 0
+            #ivs = self.investment_payoff if self.investment_payoff is not None else Constants.tot_cost
+            #self.prac_payoff = fst * (
+            #        - Constants.initial_cost + ivs - Constants.final_cost)
+            self.payoff = self.first_decision * (- Constants.initial_cost + self.investment_payoff - Constants.final_cost)
+
         # to store the game_payoffs only
         self.game_payoff = self.payoff
 
-        # try this
-        self.prac_first_decision = self.first_decision
 
 
     def set_lottery_payoffs(self):

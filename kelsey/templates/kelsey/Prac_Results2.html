@@ -2,12 +2,12 @@
 {% load staticfiles otree_tags %}
 
 {% block title %}
-    Practice: 1 of 2: Results
+    Practice: Round 2 of 2: Results
 {% endblock %}
 
 {% block inner_content %}
-    {% include 'kelsey/Prac_InfoBlock.html'  with show_payoff_in_modal=True high_payoff=Constants.prac_high_payoff low_payoff=Constants.prac_low_payoff %}
-    {% include 'kelsey/Prac_result_block.html' with prac_first_decision=player.prac_first_decision %}
+    {% include 'kelsey/Prac_InfoBlock2.html'  with show_payoff_in_modal=True high_payoff=Constants.prac_high_payoff2 low_payoff=Constants.prac_low_payoff2 %}
+    {% include 'kelsey/Prac_result_block2.html' with prac_first_decision2=player.prac_first_decision2 %}
 
     {% next_button %}
     {% include 'kelsey/slider_wrapper.html' %}

@@ -48,6 +48,16 @@ def prac_what_to_highlight(p):
     }
 #practice -end
 
+#practice -start
+def prac_what_to_highlight2(p):
+    return {
+        'highlighted_high': p.prac_investment_payoff2 == p.prac_high_payoff2,
+        'highlighted_low': p.prac_investment_payoff2 == p.prac_low_payoff2,
+        'prob_realized': True,
+        'modal_shown': True,
+    }
+#practice -end
+
 class LastPage(Page):
     def is_displayed(self):
         return self.round_number == Constants.num_rounds
@@ -66,12 +76,12 @@ class InstrPage(MyPage):
 #-start
 class DistrPage(MyPage):
     def is_displayed(self):
-        return self.extra_displayed and (self.round_number ==Constants.second_half)
+        return self.extra_displayed and (self.round_number == Constants.second_half)
 
     def extra_displayed(self):
         return True
 
-    timeout_seconds = 10
+    timeout_seconds = 60
 #-end
 
 class InitialInvestment(MyPage):
@@ -83,7 +93,6 @@ class InitialInvestment(MyPage):
         return {
             'first_decision_label': curlab,
         }
-
 
 class FinalInvestment(MyPage):
     form_model = models.Player
@@ -202,6 +211,9 @@ class QResults(InstrPage):
         return {'data': data}
 
 #practice -begin
+class Prac_Separ(InstrPage):
+    pass
+
 class Prac_InitialInvestment(InstrPage):
     form_model = models.Player
     form_fields = ['prac_first_decision']
@@ -211,21 +223,40 @@ class Prac_InitialInvestment(InstrPage):
         return {
             'first_decision_label': curlab,
         }
+ #   def is_displayed(self):
+ #       return self.round_number == 1 or self.round_number == Constants.second_half
+
+#    def before_next_page(self):
+#        if self.round_number > 1 and self.round_number < Constants.second_half + 1:
+#            self.player.prac_first_decision = 1
+
+    def before_next_page(self):
+        for p in self.subsession.get_players():
+            p.prac_low_payoff = 8
+            p.prac_high_payoff = 110
+            p.prac_investment_payoff = random.choice([p.prac_high_payoff, p.prac_low_payoff])
 
 class Prac_FinalInvestment(InstrPage):
     form_model = models.Player
     form_fields = ['prac_second_decision']
 
+    def vars_for_template(self):
+        return prac_what_to_highlight(self.player)
+
     def is_displayed(self):
         return self.player.treatment == 'T1' and self.player.prac_first_decision
 
-    def vars_for_template(self):
-        return prac_what_to_highlight(self.player)
+    #def is_displayed(self):
+    #    return self.round_number == 1 or self.round_number == Constants.second_half
+#    def before_next_page(self):
+#        if self.round_number > 1 and self.round_number < Constants.second_half + 1:
+#            self.player.prac_second_decision = 1
 
 class Prac_Results(InstrPage):
     def is_displayed(self):
         self.player.prac_set_payoffs()
-        return True
+        #return True
+        return self.round_number == 1 or self.round_number == Constants.second_half
 
     def vars_for_template(self):
         if self.player.prac_first_decision:
@@ -241,6 +272,70 @@ class Prac_Results(InstrPage):
             if self.player.treatment == 'T1':
                 dict_to_return['modal_shown'] = False
             return dict_to_return
+
+
+class Prac_InitialInvestment2(InstrPage):
+    form_model = models.Player
+    form_fields = ['prac_first_decision2']
+
+    def vars_for_template(self):
+        curlab = Constants.first_decision_labels[self.player.treatment]
+        return {
+            'first_decision_label': curlab,
+        }
+#    def is_displayed(self):
+#        return self.round_number == 1 or self.round_number == Constants.second_half
+
+#    def before_next_page(self):
+#        if self.round_number > 1 and self.round_number < Constants.second_half + 1:
+#            self.player.prac_first_decision = 1
+
+    def before_next_page(self):
+        for p in self.subsession.get_players():
+            p.prac_low_payoff2 = 26
+            p.prac_high_payoff2 = 100
+            #if self.player.treatment == 'T1':
+            p.prac_investment_payoff2 = random.choice([p.prac_high_payoff2, p.prac_low_payoff2])
+            #if self.player.treatment == 'T2':
+            #    p.prac_investment_payoff = p.prac_low_payoff
+
+class Prac_FinalInvestment2(InstrPage):
+    form_model = models.Player
+    form_fields = ['prac_second_decision2']
+
+    def vars_for_template(self):
+        return prac_what_to_highlight2(self.player)
+
+    def is_displayed(self):
+        return self.player.treatment == 'T1' and self.player.prac_first_decision2
+
+    #def is_displayed(self):
+    #    return self.round_number == 1 or self.round_number == Constants.second_half
+#    def before_next_page(self):
+#        if self.round_number > 1 and self.round_number < Constants.second_half + 1:
+#            self.player.prac_second_decision = 1
+
+class Prac_Results2(InstrPage):
+    def is_displayed(self):
+        self.player.prac_set_payoffs2()
+        #return True
+        return self.round_number == 1 or self.round_number == Constants.second_half
+
+    def vars_for_template(self):
+        if self.player.prac_first_decision2:
+            dict_to_return = prac_what_to_highlight2(self.player)
+            if self.player.treatment == 'T2':
+                dict_to_return['show_final_investment_block'] = True
+            if (self.player.treatment == 'T0' and
+                        self.player.prac_investment_payoff2 >= Constants.final_cost):
+                dict_to_return['show_final_investment_block'] = True
+            if (self.player.treatment == 'T1' and
+                    self.player.prac_second_decision2):
+                dict_to_return['show_final_investment_block'] = True
+            if self.player.treatment == 'T1':
+                dict_to_return['modal_shown'] = False
+            return dict_to_return
+
 #practice -end
 
 class Survey(LastPage):
@@ -312,23 +407,26 @@ class ShowPayoff(LastPage):
 
 
 page_sequence = [
-    #Consent,
-    #Distr,
-    #Distr2,
-    #Instr1,
-    #Instr2,
+    Consent,
+    Distr2,
+    Instr1,
+    Instr2,
     Instr3,
-    #Example,
-    #Prac_InitialInvestment,
-    #Prac_FinalInvestment,
-    #Prac_Results,
-    #Q,
-    #QResults,
-    #Separ,
-    #InitialInvestment,
-    #FinalInvestment,
-    #Results,
-    #Survey,
-    #Task3,
-    #ShowPayoff,
+    Example,
+    Prac_Separ,
+    Prac_InitialInvestment,
+    Prac_FinalInvestment,
+    Prac_Results,
+    Prac_InitialInvestment2,
+    Prac_FinalInvestment2,
+    Prac_Results2,
+    Q,
+    QResults,
+    Separ,
+    InitialInvestment,
+    FinalInvestment,
+    Results,
+    Survey,
+    Task3,
+    ShowPayoff,
 ]
