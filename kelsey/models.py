@@ -149,7 +149,8 @@ CONFIDENT_CHOICES = ['Very Confident',
 
 class Player(BasePlayer):
     game_payoff = models.CurrencyField(doc='for ingame payoffs only')
-    practice_payoff = models.TextField(doc='for prac payoffs only')
+    practice_payoff = models.CurrencyField(doc='for prac payoffs only')
+    practice_payoff2 = models.CurrencyField(doc='for prac payoffs2 only')
     vars_dump = models.TextField(doc='to store participant vars')
     consent = models.BooleanField(widget=djforms.CheckboxInput,
                                   initial=False
@@ -253,7 +254,7 @@ class Player(BasePlayer):
             #self.prac_payoff = self.prac_first_decision * (- Constants.initial_cost + self.prac_investment_payoff - Constants.final_cost)
 
         # to store the practice_payoffs only
-        self.practice_payoff = self.prac_payoff
+        self.practice_payoff2 = self.prac_payoff
     #practice -end
 
     def set_payoffs(self):
