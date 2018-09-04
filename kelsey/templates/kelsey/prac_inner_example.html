@@ -69,9 +69,9 @@
 
                 <div class="well">
                     {% if player.prac_investment_payoff == Constants.prac_high_payoff %}
-                        {% include 'kelsey/prac_result_block.html' with prac_first_decision=1 prac_investment_payoff=player.prac_investment_payoff  show_final_investment_block=1 prac_payoff=Constants.q_parameters.prac_high_pay %}
+                        {% include 'kelsey/prac_result_block.html' with prac_first_decision=1 prac_investment_payoff=Constants.prac_high_payoff  show_final_investment_block=1 prac_payoff=Constants.q_parameters.prac_high_pay %}
                     {% else %}
-                        {% include 'kelsey/prac_result_block.html' with prac_first_decision=1 prac_investment_payoff=player.prac_investment_payoff  show_final_investment_block=1 prac_payoff=Constants.q_parameters.prac_low_pay %}
+                        {% include 'kelsey/prac_result_block.html' with prac_first_decision=1 prac_investment_payoff=Constants.prac_low_payoff  show_final_investment_block=1 prac_payoff=Constants.q_parameters.prac_low_pay %}
                     {% endif %}
                 </div>
                 </li>
