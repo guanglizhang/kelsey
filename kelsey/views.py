@@ -236,6 +236,11 @@ class Prac_InitialInvestment(InstrPage):
             p.prac_high_payoff = 110
             p.prac_investment_payoff = random.choice([p.prac_high_payoff, p.prac_low_payoff])
 
+            if p.prac_first_decision == 1:
+                p.neg_prac_first_decision = 0
+            else:
+                p.neg_prac_first_decision = 1
+
 class Prac_FinalInvestment(InstrPage):
     form_model = models.Player
     form_fields = ['prac_second_decision']
@@ -251,6 +256,9 @@ class Prac_FinalInvestment(InstrPage):
 #    def before_next_page(self):
 #        if self.round_number > 1 and self.round_number < Constants.second_half + 1:
 #            self.player.prac_second_decision = 1
+    def before_next_page(self):
+        for p in self.subsession.get_players():
+            p.neg_prac_second_decision = abs(1-p.prac_second_decision)
 
 class Prac_Results(InstrPage):
     def is_displayed(self):

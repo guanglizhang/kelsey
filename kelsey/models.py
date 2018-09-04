@@ -70,6 +70,11 @@ class Constants(BaseConstants):
                     'low_payoff': 18,
                     'PT0ExampleHigh': 20,
                     'PT0ExampleLow': -52,
+                    'prac_low_pay': -62,
+                    'prac_high_pay':  40,
+                    'prac_low_pay2': -44,
+                    'prac_high_pay2': 30,
+                    'icost': -initial_cost,
                     }
     for key, value in q_parameters.items():
         q_parameters[key] = c(value)
@@ -184,7 +189,6 @@ class Player(BasePlayer):
         investment cost of {} to
          release this payoff?""".format(c(Constants.final_cost))
     )
-
     #practice -end
 
     round_to_pay_part1 = models.IntegerField(min=1, max=Constants.first_half,
