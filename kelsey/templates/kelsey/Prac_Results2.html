@@ -9,6 +9,10 @@
     {% include 'kelsey/Prac_InfoBlock2.html'  with show_payoff_in_modal=True high_payoff=Constants.prac_high_payoff2 low_payoff=Constants.prac_low_payoff2 %}
     {% include 'kelsey/Prac_result_block2.html' with prac_first_decision2=player.prac_first_decision2 %}
 
+    <br>
+
+    {% include 'kelsey/prac_inner_example2.html' %}
+
     {% next_button %}
     {% include 'kelsey/slider_wrapper.html' %}
 {% endblock %}
