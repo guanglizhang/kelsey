@@ -58,7 +58,7 @@
                 <p>Your <span class="danger">earnings</span> in this round would have been: </p>
 
                 <div class="well">
-                    {% include 'kelsey/prac_result_block.html' with prac_first_decision=1 prac_investment_payoff=0  show_final_investment_block=0 prac_payoff=Constants.q_parameters.icost %}
+                    {% include 'kelsey/Prac_result_block.html' with prac_first_decision=1 prac_investment_payoff=0  show_final_investment_block=0 prac_payoff=Constants.q_parameters.icost %}
                 </div>
                 </li>
             {% else %}
@@ -69,9 +69,9 @@
 
                 <div class="well">
                     {% if player.prac_investment_payoff == Constants.prac_high_payoff %}
-                        {% include 'kelsey/prac_result_block.html' with prac_first_decision=1 prac_investment_payoff=Constants.prac_high_payoff  show_final_investment_block=1 prac_payoff=Constants.q_parameters.prac_high_pay %}
+                        {% include 'kelsey/Prac_result_block.html' with prac_first_decision=1 prac_investment_payoff=Constants.prac_high_payoff  show_final_investment_block=1 prac_payoff=Constants.q_parameters.prac_high_pay %}
                     {% else %}
-                        {% include 'kelsey/prac_result_block.html' with prac_first_decision=1 prac_investment_payoff=Constants.prac_low_payoff  show_final_investment_block=1 prac_payoff=Constants.q_parameters.prac_low_pay %}
+                        {% include 'kelsey/Prac_result_block.html' with prac_first_decision=1 prac_investment_payoff=Constants.prac_low_payoff  show_final_investment_block=1 prac_payoff=Constants.q_parameters.prac_low_pay %}
                     {% endif %}
                 </div>
                 </li>
@@ -102,7 +102,7 @@
                     <p>Your <span class="danger">earnings</span> in this round would have been:</p>
 
                     <div class="well">
-                        {% include 'kelsey/prac_result_block.html' with prac_first_decision=1 prac_investment_payoff=Constants.prac_high_payoff  show_final_investment_block=1 prac_payoff=Constants.q_parameters.prac_high_pay %}
+                        {% include 'kelsey/Prac_result_block.html' with prac_first_decision=1 prac_investment_payoff=Constants.prac_high_payoff  show_final_investment_block=1 prac_payoff=Constants.q_parameters.prac_high_pay %}
                     </div>
 
                     <p> If you choose <input type="radio" name="inlineRadioOptions" id="inlineRadio1"
@@ -110,7 +110,7 @@
                     <strong>No</strong> in your <span class="success">final investment decision</span>, you would not have paid a final investment cost and you would not have received any positive investment payoff for this round. </p>
                     <p>Your <span class="danger">earnings</span> in this round would have been: </p>
                                     <div class="well">
-                        {% include 'kelsey/prac_result_block.html' with prac_first_decision=1 prac_investment_payoff=0  show_final_investment_block=0 prac_payoff=Constants.q_parameters.icost %}
+                        {% include 'kelsey/Prac_result_block.html' with prac_first_decision=1 prac_investment_payoff=0  show_final_investment_block=0 prac_payoff=Constants.q_parameters.icost %}
                     </div>
                  </li>
         {% endif %}
