@@ -39,7 +39,7 @@
             is greater than the final
             investment cost of {{ Constants.q_parameters.final_cost|c }},
             so you will be charged the final investment cost.
-            Your <span class="danger">Earnings</span> in this round would be:
+            Your <span class="danger">earnings</span> in this round would be:
             <div class="well">
                 {% include 'kelsey/result_block.html' with first_decision=1 investment_payoff=Constants.q_parameters.high_payoff  show_final_investment_block=1 payoff=Constants.q_parameters.PT0ExampleHigh %}
             </div>
@@ -52,20 +52,20 @@
     <ul class="list-group striped">
         {% if player.prac_first_decision2 == 1 %}
             {% if player.prac_second_decision2 == 1 %}
-                <li class="list-group-item"> Alternatively, if you chose <input type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                <li class="list-group-item"> If you had instead chosen <input type="radio" name="inlineRadioOptions" id="inlineRadio1"
                                                               disabled value="option1 ">
-                <strong>No</strong> in your <span class="success">final investment decision</span>, you will not pay a final investment cost and you will not receive any positive investment payoff for this round. </p>
-                <p>Your <span class="danger">Earnings</span> in this round would be:</p>
+                <strong>No</strong> in your <span class="success">final investment decision</span>, you would not have paid a final investment cost and you would not have received any positive investment payoff for this round. </p>
+                <p>Your <span class="danger">earnings</span> in this round would have been:</p>
 
                 <div class="well">
                     {% include 'kelsey/prac_result_block2.html' with prac_first_decision2=1 prac_investment_payoff2=0  show_final_investment_block=0 prac_payoff=Constants.q_parameters.icost %}
                 </div>
                 </li>
             {% else %}
-                <li class="list-group-item"> Alternatively, if you chose <input type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                <li class="list-group-item"> If you had instead chosen <input type="radio" name="inlineRadioOptions" id="inlineRadio1"
                                                               disabled value="option1 ">
-                <strong>Yes</strong> in your <span class="success">final investment decision</span>, you are agreed to release the investment payoff by paying a final investment cost.
-                    <p>Your <span class="danger">Earnings</span> in this round would be:</p>
+                <strong>Yes</strong> in your <span class="success">final investment decision</span>, you would have agreed to release the investment payoff by paying a final investment cost.
+                    <p>Your <span class="danger">earnings</span> in this round would have been:</p>
 
                 <div class="well">
                     {% if player.prac_investment_payoff2 == Constants.prac_high_payoff2 %}
@@ -78,37 +78,37 @@
             {% endif %}
 
         {% elif player.prac_first_decision2 == 0 %}
-             <li class="list-group-item"> Alternatively, if you chose <input type="radio" name="inlineRadioOptions" id="inlineRadio1"
+             <li class="list-group-item"> If you had instead chosen <input type="radio" name="inlineRadioOptions" id="inlineRadio1"
                                                                   disabled value="option1 ">
-                 <strong>Yes</strong> in your <span class="info">initial investment decision</span>, you are then taken to a different screen with
-                    information that depends on which of the randomly determined <span class="warning">payoffs</span> is drawn.
+                    <strong>Yes</strong> in your <span class="info">initial investment decision</span>, then you would have seen one of the following,
+                 depending on which of the randomly determined <span class="warning">payoffs</span> were drawn.
              </li>
 
                 <li class="list-group-item">
-                    <p>With {{ p }}% chance, you will receive {{ Constants.prac_low_payoff2 }}  (the low payoff will be
+                    <p>With {{ p }}% chance, you would have received {{ Constants.prac_low_payoff2 }}  (the low payoff will be
                         drawn with {{ p }}% probability).</p>
-                    <p>With {{ p_1 }}% chance, you will
-                        receive {{ Constants.prac_high_payoff2|c }} (the high payoff will be drawn with {{ p_1 }}%
+                    <p>With {{ p_1 }}% chance, you would have
+                        received {{ Constants.prac_high_payoff2|c }} (the high payoff will be drawn with {{ p_1 }}%
                     probability).</p>
-                    You will then be asked to make the following decision:
+                    You would then be asked to make the following decision:
                     {% include 'kelsey/example_second_decision.html' %}
 
                     <br>
                     <p>For example, let's say you receive <span class="warning">payoffs</span> of {{ Constants.prac_high_payoff2|c }}.
 
-                    <p>If you choose <input type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                    <p>If you would had chosen <input type="radio" name="inlineRadioOptions" id="inlineRadio1"
                                                                   disabled value="option1 ">
-                    <strong>Yes</strong> in your <span class="success">final investment decision</span>, you are agreed to release the investment payoff by paying a final investment cost.
-                    <p>Your <span class="danger">Earnings</span> in this round would be:</p>
+                    <strong>Yes</strong> in your <span class="success">final investment decision</span>, you would have agreed to release the investment payoff by paying a final investment cost.
+                    <p>Your <span class="danger">earnings</span> in this round would have been:</p>
 
                     <div class="well">
                         {% include 'kelsey/prac_result_block2.html' with prac_first_decision2=1 prac_investment_payoff2=Constants.prac_high_payoff2  show_final_investment_block=1 prac_payoff=Constants.q_parameters.prac_high_pay2 %}
                     </div>
 
-                    <p> If you choose <input type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                    <p> If you had chosen <input type="radio" name="inlineRadioOptions" id="inlineRadio1"
                                                                   disabled value="option1 ">
-                    <strong>No</strong> in your <span class="success">final investment decision</span>, you will not pay a final investment cost and you will not receive any positive investment payoff for this round. </p>
-                    <p>Your <span class="danger">Earnings</span> in this round would be:</p>
+                    <strong>No</strong> in your <span class="success">final investment decision</span>, you would have not pay a final investment cost and you would have not receive any positive investment payoff for this round. </p>
+                    <p>Your <span class="danger">earnings</span> in this round would have been:</p>
                     <div class="well">
                         {% include 'kelsey/prac_result_block2.html' with prac_first_decision2=1 prac_investment_payoff2=0  show_final_investment_block=0 prac_payoff=Constants.q_parameters.icost %}
                     </div>
@@ -120,21 +120,21 @@
     <ul class="list-group striped">
         {% if player.prac_first_decision2 == 1 %}
 
-        <li class="list-group-item"> Alternatively, if you chose
+        <li class="list-group-item"> If you had instead chosen
             <input type="radio" name="inlineRadioOptions" id="inlineRadio1" disabled value="option1 ">
-            <strong>No</strong> in your <span class="info">investment decision</span>, you will earn 0 in this round and you go to the next round.
+            <strong>No</strong> in your <span class="info">investment decision</span>, you would have earned 0 in this round.
         </li>
 
         {% else %}
-        <li class="list-group-item"> Alternatively, if you chose <input type="radio" name="inlineRadioOptions" id="inlineRadio1"
+        <li class="list-group-item"> If you had instead chosen <input type="radio" name="inlineRadioOptions" id="inlineRadio1"
                                                           disabled value="option1 ">
-            <strong>Yes</strong> in your <span class="info">investment decision</span>, you are then taken to a different screen with
-            information that depends on which of the randomly determined <span class="warning">payoffs</span> is drawn.
+            <strong>Yes</strong> in your <span class="info">investment decision</span>, you would have seen one of the following,
+            depending on which of the randomly determined <span class="warning">payoffs</span> were drawn.
         </li>
 
 
         <li class="list-group-item">
-            With {{ p }}% chance, you will see the following:
+            With {{ p }}% chance, you would have seen the following:
             <div class="well">
                 {% include 'kelsey/Prac_result_block2.html' with prac_first_decision2=1 prac_investment_payoff2=Constants.prac_low_payoff2  show_final_investment_block=1 prac_payoff=Constants.q_parameters.prac_low_pay2 %}
             </div>
@@ -142,7 +142,7 @@
 
 
         <li class="list-group-item">
-            with {{ p_1 }}% chance, you will see the following:
+            with {{ p_1 }}% chance, you would have seen the following:
             <div class="well">
                 {% include 'kelsey/Prac_result_block2.html' with prac_first_decision2=1 prac_investment_payoff2=Constants.prac_high_payoff2  show_final_investment_block=1 prac_payoff=Constants.q_parameters.prac_high_pay2 %}
             </div>
