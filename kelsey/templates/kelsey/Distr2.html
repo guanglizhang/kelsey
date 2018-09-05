@@ -7,7 +7,8 @@
 
 
 {% block inner_content %}
-    <p> The experiment will resume in one minute. Please take a short break.</p>
+    <p> This concludes Part 1 of the study</p>
+    <p> Part 2 will begin in one minute. Please take a short break.</p>
     <p> If you find it difficult to distract yourself, you can try to count the number of horses in the picture displayed below</p>
     <center>
         <img class="media-object" data-src="holder.js/64x64" alt="480x480"
@@ -24,9 +25,9 @@
     <script>
         setTimeout(
             function () {
-                alert("You can now proceed to the next stage of the experiment");
+                alert("You can now proceed to Part 2.");
             },
-            60*1000 // 10 seconds, need to change it to 60 seconds in the real experiment
+            59*1000 // 59 seconds in the real experiment
         );
     </script>
 {% endblock %}
