@@ -324,14 +324,14 @@ class Player(BasePlayer):
                                                ],
                                       widget=widgets.RadioSelect, )
     race_ethnicity_other = models.CharField(verbose_name='', blank=True)
-    major = models.CharField(verbose_name='Major', blank=True)
-    year_in_college = models.CharField(verbose_name='If you are currently in school, what year are you in?', choices=[
+    major = models.CharField(verbose_name='what is your major?', blank=True, null=True)
+    year_in_college = models.CharField(verbose_name='what year are you in?', null=True, choices=[
         'Freshman/First-Year ',
         'Sophomore',
         'Junior',
         'Senior',
         'Graduate Student',
-        'Other'
+        'Other',
     ],
                                        blank=True)
     year_in_college_other = models.CharField(verbose_name='', )
