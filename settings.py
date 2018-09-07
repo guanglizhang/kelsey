@@ -85,8 +85,8 @@ mturk_hit_settings = {
     'preview_template': 'global/MTurkPreview.html',
     'minutes_allotted_per_assignment': 180,
     'expiration_hours': 24,  # 7 days
-    #'grant_qualification_id': '38XLDN1M8EIWZ7B4AOVS2TS9EP6D3B',  # to prevent retakes from philip
-    'grant_qualification_id': '32X4OLFWW2B1YO9YP31ZRVSK3YJTDQ',
+    'grant_qualification_id': '38XLDN1M8EIWZ7B4AOVS2TS9EP6D3B',  # to prevent retakes, real exp
+    #'grant_qualification_id': '32X4OLFWW2B1YO9YP31ZRVSK3YJTDQ', #sandbox
     'qualification_requirements': [
         {
             'QualificationTypeId': "00000000000000000071",
@@ -105,14 +105,15 @@ mturk_hit_settings = {
             'Comparator': "GreaterThanOrEqualTo",
             "IntegerValues": [100],
         },
-#        {
-#            'QualificationTypeId': "38XLDN1M8EIWZ7B4AOVS2TS9EP6D3B",
-#            'Comparator': "DoesNotExist",
-#        },
         {
-            'QualificationTypeId': "32X4OLFWW2B1YO9YP31ZRVSK3YJTDQ",
+            'QualificationTypeId': "38XLDN1M8EIWZ7B4AOVS2TS9EP6D3B",
             'Comparator': "DoesNotExist",
-        }
+        },
+ #sandbox
+ #       {
+ #           'QualificationTypeId': "32X4OLFWW2B1YO9YP31ZRVSK3YJTDQ",
+ #           'Comparator': "DoesNotExist",
+ #       }
     ],
 
     #     [
