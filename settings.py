@@ -105,10 +105,10 @@ mturk_hit_settings = {
             'Comparator': "GreaterThanOrEqualTo",
             "IntegerValues": [100],
         },
-        {
-            'QualificationTypeId': "38XLDN1M8EIWZ7B4AOVS2TS9EP6D3B",
-            'Comparator': "DoesNotExist",
-        },
+#        {
+#            'QualificationTypeId': "38XLDN1M8EIWZ7B4AOVS2TS9EP6D3B",
+#            'Comparator': "DoesNotExist",
+#        },
         {
             'QualificationTypeId': "32X4OLFWW2B1YO9YP31ZRVSK3YJTDQ",
             'Comparator': "DoesNotExist",
