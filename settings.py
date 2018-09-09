@@ -110,11 +110,11 @@ mturk_hit_settings = {
             'Comparator': "DoesNotExist",
         },
         #compensation
-        {
-            'QualificationTypeId': "3386SE2C9HSP0DGDZ7STLI1HJSJPVF",
-            'Comparator': "EqualTo",
-            "IntegerValues": [1],
-        }
+        #{
+        #    'QualificationTypeId': "3386SE2C9HSP0DGDZ7STLI1HJSJPVF",
+        #    'Comparator': "EqualTo",
+        #    "IntegerValues": [1],
+        #}
  #sandbox
  #       {
  #           'QualificationTypeId': "32X4OLFWW2B1YO9YP31ZRVSK3YJTDQ",
